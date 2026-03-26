@@ -37,7 +37,7 @@ export default function Header() {
       <div className="container mx-auto px-6 flex justify-between items-center">
         
         {/* LOGO SECTION - THE "BOARD" LAYOUT */}
-        <Link href="/" className="group flex items-center gap-4">
+        <Link href="/" className="group flex items-center gap-1">
           {/* Main Logo Image */}
           <div className="relative w-14 h-14 transition-transform group-hover:scale-105 duration-500">
             <Image 
@@ -50,7 +50,7 @@ export default function Header() {
           </div>
           
           {/* The Stacked Text Logic */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {/* 1. MINAL (Bada aur 2 line ki height ke barabar) */}
             <h1 className="text-4xl md:text-5xl font-black italic tracking-tighter text-[#FF8C00] leading-none ">
               MINAL
