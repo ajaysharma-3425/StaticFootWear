@@ -57,7 +57,7 @@ export default function Header() {
             </h1>
 
             <div className="flex flex-col justify-center border-l border-white/20 pl-1.5">
-              <span className="text-[12px] pb-2 md:text-lg font-black italic tracking-tighter text-[#4169E1] leading-none uppercase">
+              <span className="text-[12px] pb-1 md:text-lg font-black italic tracking-tighter text-[#4169E1] leading-none uppercase">
                 Footwear
               </span>
               <span className="text-[5px] md:text-[20px] font-bold tracking-widest text-[#FF8C00] uppercase whitespace-nowrap">
