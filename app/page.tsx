@@ -38,7 +38,7 @@ export default function Home() {
             >
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d4af37]/40 bg-[#d4af37]/10 text-[#d4af37] text-[10px] md:text-[11px] font-medium tracking-[0.2em] uppercase mb-6 backdrop-blur-sm">
                 <Star size={12} fill="#d4af37" />
-                Surat's Finest Footwear Since 1993
+                Ahmedabad's Finest Footwear Since 1993
               </span>
 
               {/* Reduced size from 10rem to 4xl/6xl */}
@@ -52,7 +52,7 @@ export default function Home() {
               {/* Reduced from 2xl to base/lg */}
               <p className="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto mb-10 font-light leading-relaxed">
                 Step into a world where premium craftsmanship meets modern aesthetics.
-                Curating global luxury brands for the elite of Surat.
+                Curating global luxury brands for the elite of Ahmedabad.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -218,7 +218,7 @@ export default function Home() {
                 Visit Our <br /><span className="text-[#d4af37]">Flagship Store</span>
               </h2>
               <p className="text-gray-400 text-sm md:text-base font-light leading-relaxed max-w-lg">
-                Experience the heritage of quality at Surat's most premium footwear destination.
+                Experience the heritage of quality at Ahmedabad's most premium footwear destination.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -227,7 +227,7 @@ export default function Home() {
                     <MapPin size={20} />
                   </div>
                   <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Location</p>
-                  <p className="text-md font-medium">Surat, Gujarat, India</p>
+                  <p className="text-md font-medium">Ahmedabad, Gujarat, India</p>
                 </div>
 
                 <div className="p-6 bg-white/[0.02] rounded-[1.5rem] border border-white/5 text-left">
@@ -235,7 +235,7 @@ export default function Home() {
                     <Phone size={20} />
                   </div>
                   <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Contact</p>
-                  <p className="text-md font-medium">+91 98XXX XXXXX</p>
+                  <p className="text-md font-medium">+91 7600727603</p>
                 </div>
               </div>
             </div>
