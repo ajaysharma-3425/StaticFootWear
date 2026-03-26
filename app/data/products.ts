@@ -1,0 +1,81 @@
+import { Product } from '@/types';
+
+export const products: Product[] = [
+  {
+    id: 'mens-running-shoe-1',
+    name: "Men's Running Shoes",
+    article: 'OX-2026-BLK',
+    price: 1999,
+    category: 'men',
+    subCategory: 'casual',
+    images: ['/images/men.jpg'],
+    description: 'Lightweight and breathable running casual shoes.',
+    sizes: ['7', '8', '9', '10'],
+    isFeatured: true,
+    colors: ['#000000', '#B22222', '#1A237E']
+  },
+  {
+    id: 'womens-casual-shoe-1',
+    name: "Women's Casual Sneakers",
+    article: 'OX-2026-BLK',
+    price: 1499,
+    category: 'women',
+    subCategory: 'casual',
+    images: ['/images/womens.jpg'],
+    description: 'Comfortable everyday sneakers.',
+    sizes: ['5', '6', '7', '8'],
+    isFeatured: true,
+  },
+   {
+    id: 'kids-casual-shoe-1',
+    name: "Women's Casual Sneakers",
+    article: 'OX-2026-BLK',
+    price: 1499,
+    category: 'kids',
+    subCategory: 'casual',
+    images: ['/images/kids_casual.jpg'],
+    description: 'Comfortable everyday sneakers.',
+    sizes: ['5', '6', '7', '8'],
+    isFeatured: true,
+  },
+   {
+    id: 'mens-running-shoe-2',
+    name: "Men's Running Snekers",
+    article: 'OX-2026-BLK',
+    price: 1999,
+    category: 'men',
+    subCategory: 'sneakers',
+    images: ['/images/men_snekers.jpg'],
+    description: 'Lightweight and breathable running shoes.',
+    sizes: ['7', '8', '9', '10'],
+    isFeatured: true,
+    colors: ['#000000', '#B22222', '#1A237E']
+  },
+  // {
+  //   id: 'mens-formal-shoe-1',
+  //   name: "Men's Formals",
+  //   article: 'OX-2025-BLK',
+  //   price: 1999,
+  //   category: 'men',
+  //   subCategory: 'formal',
+  //   images: ['/images/men_formal.jpg'],
+  //   description: 'Lightweight and breathable formal shoes.',
+  //   sizes: ['7', '8', '9', '10'],
+  //   isFeatured: true,
+  //   colors: ['#000000', '#B22222', '#1A237E']
+  // },
+  {
+    id: 'mens-boots-shoe-1',
+    name: "Men's Boots",
+    article: 'OX-2025-BLK',
+    price: 1999,
+    category: 'men',
+    subCategory: 'boots',
+    images: ['/images/mens-boots.jpg'],
+    description: 'Lightweight and breathable Boots.',
+    sizes: ['7', '8', '9', '10'],
+    isFeatured: true,
+    colors: ['#000000', '#B22222', '#1A237E']
+  },
+  // Add more products as needed
+];
