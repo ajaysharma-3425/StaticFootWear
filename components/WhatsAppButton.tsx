@@ -10,7 +10,7 @@ export default function WhatsAppButton() {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-4 right-4 bg-green-500 p-3 rounded-full shadow-lg"
+      className="z-100 fixed bottom-4 right-4 bg-green-500 p-3 rounded-full shadow-lg"
     >
       {/* WhatsApp icon */}
       💬

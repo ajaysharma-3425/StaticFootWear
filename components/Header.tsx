@@ -27,40 +27,40 @@ export default function Header() {
   ];
 
   return (
-    <header 
-      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
-        scrolled 
-        ? "bg-black/90 backdrop-blur-md border-b border-white/5 py-2" 
-        : "bg-transparent py-4"
-      }`}
+    <header
+      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${scrolled
+          ? "bg-black/95 backdrop-blur-md border-b border-white/5 py-2"
+          : "bg-transparent py-4"
+        }`}
       style={{ fontFamily: "'Ubuntu', sans-serif" }}
     >
-      <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-        
-        {/* LEFT SECTION: LOGO + TEXT */}
-        <Link href="/" className="flex items-center gap-2 group">
-          {/* Logo Image */}
-          <div className="relative w-10 h-10 md:w-12 md:h-12 transition-transform duration-300 group-hover:scale-105">
-            <Image 
-              src="/images/footcare.png" 
-              alt="Minal Logo" 
-              fill 
+      <div className="container mx-auto px-4 flex justify-between items-center">
+
+        {/* LEFT SECTION: LOGO + TEXT (Improved Visibility for Mobile) */}
+        <Link href="/" className="flex items-center gap-2 md:gap-3 group shrink-0">
+          {/* Logo Image - Mobile par thoda bada kiya */}
+          <div className="relative w-11 h-11 md:w-14 md:h-14 transition-transform duration-300 group-hover:scale-105 shrink-0">
+            <Image
+              src="/images/footcare.png"
+              alt="Minal Logo"
+              fill
               className="object-contain"
               priority
             />
           </div>
-          
-          {/* Brand Text */}
-          <div className="flex items-center gap-1.5">
-            <h1 className="text-2xl md:text-4xl font-black italic tracking-tighter text-[#FF8C00] leading-none">
+
+          {/* Brand Text - Mobile visibility fixed */}
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <h1 className="text-2xl md:text-5xl font-[900] italic tracking-tighter text-[#FF8C00] leading-none drop-shadow-[0_2px_8px_rgba(255,140,0,0.4)] uppercase">
               MINAL
             </h1>
 
-            <div className="flex flex-col justify-center border-l border-white/20 pl-1.5">
-              <span className="text-[12px] pb-1 md:text-lg font-black italic tracking-tighter text-[#4169E1] leading-none uppercase">
+            {/* Vertical Line with consistent height */}
+            <div className="flex flex-col justify-center border-l-2 border-white/20 pl-2 h-8 md:h-12">
+              <span className="text-[12px] md:text-2xl font-black italic tracking-tighter text-[#4169E1] leading-none uppercase">
                 Footwear
               </span>
-              <span className="text-[5px] md:text-[20px] font-bold tracking-widest text-[#FF8C00] uppercase whitespace-nowrap">
+              <span className="text-[5.5px] md:text-[14px] font-bold tracking-[0.05em] md:tracking-widest text-[#FF8C00] uppercase whitespace-nowrap mt-0.5">
                 For Every Step Of Life
               </span>
             </div>
@@ -70,9 +70,9 @@ export default function Header() {
         {/* CENTER: DESKTOP NAV */}
         <nav className="hidden xl:flex items-center space-x-8">
           {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
+            <Link
+              key={link.name}
+              href={link.href}
               className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-300 hover:text-[#FF8C00] transition-colors relative group"
             >
               {link.name}
@@ -84,62 +84,72 @@ export default function Header() {
         {/* RIGHT SECTION: BUTTON & HAMBURGER */}
         <div className="flex items-center gap-4">
           <div className="hidden md:block">
-            <a 
+            <a
               href="https://wa.me/7600727603"
-              className="px-5 py-2 bg-[#FF8C00] text-black text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-[#e67e00] transition-all"
+              className="px-5 py-2 bg-[#FF8C00] text-black text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-[#e67e00] transition-all shadow-lg shadow-[#FF8C00]/20"
             >
               Connect
             </a>
           </div>
 
           {/* Hamburger Button */}
-          <button 
-            className="md:hidden text-[#FF8C00] p-1 z-[110]" 
+          <button
+            className="md:hidden text-[#FF8C00] p-1 z-[110] outline-none"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
           >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+            {isOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </div>
 
-      {/* MOBILE OVERLAY MENU */}
+      {/* MOBILE OVERLAY MENU (Universal Access Fix) */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.4 }}
-            className="fixed inset-0 bg-black z-[105] flex flex-col justify-center p-10 md:hidden"
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-black/98 backdrop-blur-xl z-[105] flex flex-col justify-center p-8 md:hidden h-screen w-screen"
           >
-            <div className="flex flex-col space-y-6">
+            {/* Background Abstract Glow */}
+            <div className="absolute top-1/4 -right-20 w-64 h-64 bg-[#FF8C00]/10 blur-[100px] rounded-full pointer-events-none" />
+
+            <div className="flex flex-col space-y-6 relative z-10">
               {navLinks.map((link, idx) => (
                 <motion.div
                   key={link.name}
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * idx }}
                 >
-                  <Link 
-                    href={link.href} 
-                    onClick={() => setIsOpen(false)} 
-                    className="text-4xl font-black italic text-white uppercase tracking-tighter hover:text-[#FF8C00]"
+                  <Link
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-4xl font-black italic text-white uppercase tracking-tighter hover:text-[#FF8C00] transition-colors inline-block"
                   >
                     {link.name}
                   </Link>
                 </motion.div>
               ))}
-              
-              <motion.a
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                href="tel:+917600727603"
-                className="mt-10 inline-block text-[#FF8C00] font-bold tracking-widest text-sm border border-[#FF8C00] px-6 py-3 rounded-xl w-fit"
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="pt-10 flex flex-col gap-4"
               >
-                CALL NOW
-              </motion.a>
+                <a
+                  href="tel:+917600727603"
+                  className="inline-block text-center bg-[#FF8C00] text-black font-black tracking-widest text-xs px-8 py-4 rounded-xl w-full"
+                >
+                  CALL NOW
+                </a>
+                <p className="text-[8px] text-center text-white/30 tracking-[0.5em] uppercase">
+                  Surat's Premium Footwear
+                </p>
+              </motion.div>
             </div>
           </motion.div>
         )}

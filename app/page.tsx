@@ -252,11 +252,11 @@ export default function Home() {
       </section>
 
       {/* Mobile Footer */}
-      <div className="md:hidden fixed bottom-20 left-6 right-6 z-50 flex gap-2">
+      <div className="md:hidden fixed bottom-28 left-6 right-6 z-50 flex gap-2">
         <a href="tel:7600727603" className="flex-1 bg-white text-black py-3 rounded-xl font-bold text-center text-[10px] uppercase tracking-widest shadow-2xl">
           Call Now
         </a>
-        <a href="#" className="w-12 h-12 bg-[#d4af37] flex items-center justify-center rounded-xl text-black shadow-2xl">
+        <a href="/contact" className="w-12 h-12 bg-[#d4af37] flex items-center justify-center rounded-xl text-black shadow-2xl">
           <MapPin size={20} />
         </a>
       </div>
