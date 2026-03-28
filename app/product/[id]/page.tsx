@@ -22,7 +22,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = products.find(p => p.id === id);
   if (!product) notFound();
 
-  const whatsappLink = `https://wa.me/919876543210?text=${encodeURIComponent(
+  const whatsappLink = `https://wa.me/7600727603?text=${encodeURIComponent(
     `Hi Minal Footwear, I'm interested in ${product.name} (₹${product.price}). Please share more details.`
   )}`;
 

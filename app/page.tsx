@@ -5,8 +5,10 @@ import { products } from './data/products';
 import ProductCard from '@/components/ProductCard';
 import { ChevronRight, MapPin, Phone, Star, ArrowRight, Instagram, ShoppingBag } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function Home() {
+  const [isActionOpen, setIsActionOpen] = useState(false);
   const featuredProducts = products.filter(p => p.isFeatured);
 
   const brandLogos = [
@@ -252,13 +254,45 @@ export default function Home() {
       </section>
 
       {/* Mobile Footer */}
-      <div className="md:hidden fixed bottom-28 left-6 right-6 z-50 flex gap-2">
-        <a href="tel:7600727603" className="flex-1 bg-white text-black py-3 rounded-xl font-bold text-center text-[10px] uppercase tracking-widest shadow-2xl">
-          Call Now
-        </a>
-        <a href="/contact" className="w-12 h-12 bg-[#d4af37] flex items-center justify-center rounded-xl text-black shadow-2xl">
+      <div className="md:hidden fixed bottom-6 right-6 z-[60] flex flex-col items-center gap-3">
+
+        {/* 1. Call Button (Hidden by default, slides up) */}
+        <motion.a
+          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+          animate={isActionOpen ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.8 }}
+          href="tel:7600727603"
+          className={`w-12 h-12 bg-white text-black flex items-center justify-center rounded-full shadow-2xl border border-gray-200 ${!isActionOpen && 'pointer-events-none'}`}
+        >
+          <Phone size={20} />
+        </motion.a>
+
+        {/* 2. Map Button (Hidden by default, slides up) */}
+        <motion.a
+          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+          animate={isActionOpen ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.8 }}
+          transition={{ delay: 0.1 }}
+          href="/contact"
+          className={`w-12 h-12 bg-white text-black flex items-center justify-center rounded-full shadow-2xl border border-gray-200 ${!isActionOpen && 'pointer-events-none'}`}
+        >
           <MapPin size={20} />
-        </a>
+        </motion.a>
+
+        {/* 3. Main Toggle Button (Jo hamesha dikhega) */}
+        <button
+          onClick={() => setIsActionOpen(!isActionOpen)}
+          className="mb-10 w-14 h-14 bg-[#d4af37] text-black flex items-center justify-center rounded-full shadow-[0_10px_30px_rgba(212,175,55,0.4)] active:scale-90 transition-all z-10"
+        >
+          <motion.div
+            animate={{ rotate: isActionOpen ? 45 : 0 }}
+            className="flex items-center justify-center"
+          >
+            {/* Is icon ko aap 'Plus' ya 'Contact' icon jaisa rakh sakte hain */}
+            <ArrowRight size={24} className="-rotate-90" />
+          </motion.div>
+        </button>
+
+        {/* Note: Aapka WhatsApp icon iske thoda side mein ya niche reh sakta hai 
+          lekin agar wo pehle se hi fixed hai, toh ye uske upar ek clean 'Contact Stack' ban jayega */}
       </div>
     </main>
   );

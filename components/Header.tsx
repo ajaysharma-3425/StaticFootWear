@@ -147,7 +147,7 @@ export default function Header() {
                   CALL NOW
                 </a>
                 <p className="text-[8px] text-center text-white/30 tracking-[0.5em] uppercase">
-                  Surat's Premium Footwear
+                  Ahmedabad's Premium Footwear
                 </p>
               </motion.div>
             </div>
