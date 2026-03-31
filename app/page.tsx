@@ -254,45 +254,46 @@ export default function Home() {
       </section>
 
       {/* Mobile Footer */}
-      <div className="md:hidden fixed bottom-6 right-6 z-[60] flex flex-col items-center gap-3">
+      {/* Mobile Footer - Refined Position and Sizes */}
+      <div className="md:hidden fixed bottom-20 right-4 z-[60] flex flex-col items-center gap-4">
 
-        {/* 1. Call Button (Hidden by default, slides up) */}
+        {/* 1. Call Button */}
         <motion.a
-          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-          animate={isActionOpen ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.8 }}
+          initial={{ opacity: 0, y: 10, scale: 0.8 }}
+          animate={isActionOpen ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.8 }}
           href="tel:7600727603"
-          className={`w-12 h-12 bg-white text-black flex items-center justify-center rounded-full shadow-2xl border border-gray-200 ${!isActionOpen && 'pointer-events-none'}`}
+          className={`w-11 h-11 bg-white text-black flex items-center justify-center rounded-full shadow-xl border border-gray-100 ${!isActionOpen && 'pointer-events-none'}`}
         >
-          <Phone size={20} />
+          <Phone size={18} />
         </motion.a>
 
-        {/* 2. Map Button (Hidden by default, slides up) */}
+        {/* 2. Map Button */}
         <motion.a
-          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-          animate={isActionOpen ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.8 }}
-          transition={{ delay: 0.1 }}
+          initial={{ opacity: 0, y: 10, scale: 0.8 }}
+          animate={isActionOpen ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.8 }}
+          transition={{ delay: 0.05 }}
           href="/contact"
-          className={`w-12 h-12 bg-white text-black flex items-center justify-center rounded-full shadow-2xl border border-gray-200 ${!isActionOpen && 'pointer-events-none'}`}
+          className={`w-11 h-11 bg-white text-black flex items-center justify-center rounded-full shadow-xl border border-gray-100 ${!isActionOpen && 'pointer-events-none'}`}
         >
-          <MapPin size={20} />
+          <MapPin size={18} />
         </motion.a>
 
-        {/* 3. Main Toggle Button (Jo hamesha dikhega) */}
+        {/* 3. Main Toggle Button (Arrow Up/Down) */}
         <button
           onClick={() => setIsActionOpen(!isActionOpen)}
-          className="mb-10 w-14 h-14 bg-[#d4af37] text-black flex items-center justify-center rounded-full shadow-[0_10px_30px_rgba(212,175,55,0.4)] active:scale-90 transition-all z-10"
+          className="w-12 h-12 bg-[#d4af37] text-black flex items-center justify-center rounded-full shadow-lg active:scale-90 transition-all z-10"
         >
           <motion.div
-            animate={{ rotate: isActionOpen ? 45 : 0 }}
+            animate={{ rotate: isActionOpen ? 180 : 0 }} // Click hone par arrow rotate hoga
             className="flex items-center justify-center"
           >
-            {/* Is icon ko aap 'Plus' ya 'Contact' icon jaisa rakh sakte hain */}
-            <ArrowRight size={24} className="-rotate-90" />
+            <ChevronRight size={24} className="-rotate-90" />
           </motion.div>
         </button>
 
-        {/* Note: Aapka WhatsApp icon iske thoda side mein ya niche reh sakta hai 
-          lekin agar wo pehle se hi fixed hai, toh ye uske upar ek clean 'Contact Stack' ban jayega */}
+        {/* 4. WhatsApp Icon (Stays at the bottom) */}
+       
+
       </div>
     </main>
   );

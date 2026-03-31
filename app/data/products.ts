@@ -75,7 +75,7 @@ export const products: Product[] = [
     description: 'Lightweight and breathable Boots.',
     sizes: ['7', '8', '9', '10'],
     isFeatured: true,
-    colors: ['#000000', '#B22222', '#1A237E']
+    colors: ['#7B3F00', '#000000']
   },
   // Add more products as needed
 ];
