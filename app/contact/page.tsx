@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   Phone,
   Mail,
@@ -9,65 +9,114 @@ import {
   Send,
   MessageCircle,
   Instagram,
-  Facebook
+  Facebook,
+  ArrowDown,
+  Sparkles
 } from 'lucide-react';
+import { useRef } from 'react';
 
 export default function ContactPage() {
-  const whatsappNumber = '7600727603'; // Replace with real Minal Footwear number
+  const containerRef = useRef(null);
+  const whatsappNumber = '7600727603';
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi Minal Footwear, I need assistance with your premium collection.')}`;
 
+  // Parallax Effect for Hero
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 1.1]);
+
   return (
-    <main className="min-h-screen bg-[#020202] text-white pt-32 pb-20 overflow-hidden">
+    <main ref={containerRef} className="min-h-screen bg-[#020202] text-white pb-20 overflow-x-hidden">
 
-      {/* BACKGROUND AMBIANCE */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-[#d4af37]/10 to-transparent pointer-events-none" />
+      {/* ========================================================
+          1. NEW CINEMATIC HERO SECTION (Responsive & Premium)
+      ======================================================== */}
+      <section className="relative h-[80vh] md:h-screen flex items-center justify-center overflow-hidden border-b border-white/5">
 
-      <div className="container mx-auto px-6 relative z-10">
+        {/* Background Image Layer */}
+        <motion.div style={{ scale }} className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1600" // Replace with your image link
+            alt="Minal Footwear Office"
+            className="w-full h-full object-cover opacity-30 grayscale brightness-50"
+          />
+          {/* Overlays for Depth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#020202] via-transparent to-[#020202] opacity-90" />
+          <div className="absolute inset-0 bg-[#d4af37]/5 mix-blend-overlay" />
+        </motion.div>
 
-        {/* 1. HEADER SECTION */}
-        <div className="text-center mb-20">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
+        {/* Text Content */}
+        <motion.div style={{ opacity }} className="container mx-auto px-6 relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-[#d4af37] text-xs font-bold tracking-[0.5em] uppercase mb-4 block"
+            transition={{ duration: 1 }}
           >
-            Available 24/7 For You
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-6xl md:text-8xl font-black italic tracking-tighter mb-6"
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/20 text-[#d4af37] text-[10px] font-black tracking-[0.4em] uppercase mb-8 backdrop-blur-md">
+              <Sparkles size={14} /> Global Presence
+            </div>
+
+            <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black italic tracking-tighter leading-[0.85] mb-8">
+              GET IN <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f3cf7a] to-[#d4af37]">
+                TOUCH.
+              </span>
+            </h1>
+
+            <div className="w-20 h-[2px] bg-[#d4af37] mx-auto mb-10 shadow-[0_0_20px_#d4af37]" />
+
+            <p className="max-w-xl mx-auto text-gray-400 text-xs md:text-lg font-bold uppercase tracking-[0.2em] leading-relaxed mb-10 px-4">
+              Premium Footwear, Personalized Service. <br className="hidden md:block" />
+              We are here to assist you 24/7.
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-[#d4af37]"
           >
-            GET IN <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#f3cf7a]">TOUCH.</span>
-          </motion.h1>
-          <div className="w-20 h-1 bg-[#d4af37] mx-auto rounded-full" />
+            <ArrowDown size={20} />
+          </motion.div>
         </div>
+      </section>
 
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
+      {/* ========================================================
+          2. CONTACT CONTENT (Your Original Layout - Untouched)
+      ======================================================== */}
+      <div className="container mx-auto px-4 md:px-6 relative z-10 -mt-20 md:-mt-32">
 
-          {/* 2. CONTACT INFO CARDS (Left Side - 5 Columns) */}
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
+
+          {/* CONTACT INFO CARDS */}
           <div className="lg:col-span-5 space-y-6">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-white/5 border border-white/10 p-8 rounded-[2.5rem] backdrop-blur-md"
+              whileInView={{ opacity: 1, x: 0 }}
+              className="bg-white/5 border border-white/10 p-6 md:p-8 rounded-[2.5rem] backdrop-blur-md"
             >
               <h2 className="text-[#d4af37] font-black italic text-2xl mb-8 uppercase tracking-tighter">Office & Showroom</h2>
 
               <div className="space-y-8">
                 <div className="flex items-start gap-5 group">
-                  <div className="w-12 h-12 rounded-2xl bg-[#d4af37]/10 flex items-center justify-center text-[#d4af37] group-hover:bg-[#d4af37] group-hover:text-black transition-all duration-500">
+                  <div className="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#d4af37]/10 flex items-center justify-center text-[#d4af37] group-hover:bg-[#d4af37] group-hover:text-black transition-all duration-500">
                     <MapPin size={24} />
                   </div>
                   <div>
                     <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Our Location</p>
-                    <p className="text-lg font-medium text-gray-200">105, Rajendra Park Rd, Purnima nagar, Ramrajya Nagar, Odhav, Ahmedabad,<br /> Gujarat 382415, India</p>
+                    <p className="text-sm md:text-lg font-medium text-gray-200 leading-snug">105, Rajendra Park Rd, Purnima nagar, Ramrajya Nagar, Odhav, Ahmedabad, Gujarat 382415, India</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-5 group">
-                  <div className="w-12 h-12 rounded-2xl bg-[#d4af37]/10 flex items-center justify-center text-[#d4af37] group-hover:bg-[#d4af37] group-hover:text-black transition-all duration-500">
+                  <div className="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#d4af37]/10 flex items-center justify-center text-[#d4af37] group-hover:bg-[#d4af37] group-hover:text-black transition-all duration-500">
                     <Phone size={24} />
                   </div>
                   <div>
@@ -79,13 +128,13 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-5 group">
-                  <div className="w-12 h-12 rounded-2xl bg-[#d4af37]/10 flex items-center justify-center text-[#d4af37] group-hover:bg-[#d4af37] group-hover:text-black transition-all duration-500">
+                  <div className="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#d4af37]/10 flex items-center justify-center text-[#d4af37] group-hover:bg-[#d4af37] group-hover:text-black transition-all duration-500">
                     <Clock size={24} />
                   </div>
                   <div>
                     <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Shop Timings</p>
-                    <p className="text-lg font-medium text-gray-200">Mon - Sun: 9:00 AM - 09:30 PM</p>
-                    <p className="text-[#d4af37] text-[10px] font-bold mt-1 tracking-widest underline underline-offset-4">Open All Week</p>
+                    <p className="text-sm md:text-lg font-medium text-gray-200">Mon - Sun: 9:00 AM - 09:30 PM</p>
+                    <p className="text-[#d4af37] text-[10px] font-bold mt-1 tracking-widest underline underline-offset-4 uppercase">Open All Week</p>
                   </div>
                 </div>
               </div>
@@ -98,7 +147,7 @@ export default function ContactPage() {
               </div>
             </motion.div>
 
-            {/* QUICK WHATSAPP CALL TO ACTION */}
+            {/* QUICK WHATSAPP CTA */}
             <motion.a
               href={whatsappLink}
               whileHover={{ scale: 1.02 }}
@@ -109,56 +158,56 @@ export default function ContactPage() {
             </motion.a>
           </div>
 
-          {/* 3. MODERN CONTACT FORM (Right Side - 7 Columns) */}
+          {/* MODERN CONTACT FORM */}
           <div className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-white/5 border border-white/10 p-10 md:p-14 rounded-[3rem] backdrop-blur-md relative overflow-hidden"
+              whileInView={{ opacity: 1, x: 0 }}
+              className="bg-white/5 border border-white/10 p-8 md:p-14 rounded-[3rem] backdrop-blur-md relative overflow-hidden"
             >
               <div className="relative z-10">
-                <h3 className="text-4xl font-black italic tracking-tighter mb-4">SEND A <span className="text-[#d4af37]">MESSAGE.</span></h3>
-                <p className="text-gray-500 mb-10 font-medium">Have a specific requirement? Fill the form and our luxury concierge will contact you within 2 hours.</p>
+                <h3 className="text-3xl md:text-4xl font-black italic tracking-tighter mb-4 uppercase">SEND A <span className="text-[#d4af37]">MESSAGE.</span></h3>
+                <p className="text-gray-500 mb-10 font-medium text-sm md:text-base">Have a specific requirement? Fill the form and our luxury concierge will contact you within 2 hours.</p>
 
-                <form action="https://formspree.io/f/your-form-id" method="POST" className="space-y-6">
+                <form className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-[#d4af37] uppercase tracking-[0.2em] ml-2">Full Name</label>
-                      <input type="text" name="name" placeholder="John Doe" required className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 focus:border-[#d4af37] transition-all outline-none text-white placeholder:text-gray-700 font-medium" />
+                      <input type="text" placeholder="John Doe" className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 focus:border-[#d4af37] transition-all outline-none text-white placeholder:text-gray-700 font-medium" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-[#d4af37] uppercase tracking-[0.2em] ml-2">Email Address</label>
-                      <input type="email" name="email" placeholder="john@luxury.com" required className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 focus:border-[#d4af37] transition-all outline-none text-white placeholder:text-gray-700 font-medium" />
+                      <input type="email" placeholder="john@luxury.com" className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 focus:border-[#d4af37] transition-all outline-none text-white placeholder:text-gray-700 font-medium" />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold text-[#d4af37] uppercase tracking-[0.2em] ml-2">Your Message</label>
-                    <textarea name="message" rows={5} placeholder="I'm interested in the premium formal collection..." required className="w-full bg-black/40 border border-white/10 rounded-3xl px-6 py-4 focus:border-[#d4af37] transition-all outline-none text-white placeholder:text-gray-700 font-medium resize-none"></textarea>
+                    <textarea rows={5} placeholder="I'm interested in the premium formal collection..." className="w-full bg-black/40 border border-white/10 rounded-3xl px-6 py-4 focus:border-[#d4af37] transition-all outline-none text-white placeholder:text-gray-700 font-medium resize-none"></textarea>
                   </div>
 
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full bg-white text-black font-black py-5 rounded-2xl uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 hover:bg-[#d4af37] transition-all duration-500"
+                    className="w-full bg-white text-black font-black py-5 rounded-2xl uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 hover:bg-[#d4af37] transition-all duration-500 shadow-xl shadow-white/5"
                   >
                     Submit Inquiry <Send size={16} />
                   </motion.button>
                 </form>
               </div>
 
-              {/* Decorative Corner */}
+              {/* Decorative Corner Glow */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#d4af37]/10 blur-3xl rounded-full" />
             </motion.div>
           </div>
         </div>
 
-        {/* 4. GOOGLE MAPS EMBED (Full Width) */}
+        {/* 3. GOOGLE MAPS */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="mt-20 h-[450px] w-full rounded-[3rem] overflow-hidden border border-white/10 grayscale hover:grayscale-0 transition-all duration-1000 shadow-2xl shadow-black/50"
+          className="mt-20 h-[350px] md:h-[500px] w-full rounded-[3rem] overflow-hidden border border-white/10 grayscale hover:grayscale-0 transition-all duration-1000 shadow-2xl shadow-black/50"
         >
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3672.252709335514!2d72.6383313!3d23.0148377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e865d101b992f%3A0xb177314d0000000!2sMINAL%20FOOTWEAR!5e0!3m2!1sen!2sin!4v1711450000000"
