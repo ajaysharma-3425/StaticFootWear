@@ -28,17 +28,16 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${scrolled
+      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
+        scrolled
           ? "bg-black/95 backdrop-blur-md border-b border-white/5 py-2"
           : "bg-transparent py-4"
-        }`}
+      }`}
       style={{ fontFamily: "'Ubuntu', sans-serif" }}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-
-        {/* LEFT SECTION: LOGO + TEXT (Improved Visibility for Mobile) */}
+        {/* LEFT SECTION: LOGO + TEXT */}
         <Link href="/" className="flex items-center gap-2 md:gap-3 group shrink-0">
-          {/* Logo Image - Mobile par thoda bada kiya */}
           <div className="relative w-11 h-11 md:w-14 md:h-14 transition-transform duration-300 group-hover:scale-105 shrink-0">
             <Image
               src="/images/footcare.png"
@@ -48,14 +47,10 @@ export default function Header() {
               priority
             />
           </div>
-
-          {/* Brand Text - Mobile visibility fixed */}
           <div className="flex items-center gap-1.5 md:gap-2">
             <h1 className="text-2xl md:text-5xl font-[900] italic tracking-tighter text-[#FF8C00] leading-none drop-shadow-[0_2px_8px_rgba(255,140,0,0.4)] uppercase">
               MINAL
             </h1>
-
-            {/* Vertical Line with consistent height */}
             <div className="flex flex-col justify-center border-l-2 border-white/20 pl-2 h-8 md:h-12">
               <span className="text-[12px] md:text-2xl font-black italic tracking-tighter text-[#4169E1] leading-none uppercase">
                 Footwear
@@ -67,8 +62,8 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* CENTER: DESKTOP NAV */}
-        <nav className="hidden xl:flex items-center space-x-8">
+        {/* CENTER: DESKTOP NAV - FIX: lg:flex */}
+        <nav className="hidden lg:flex items-center space-x-8">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -92,9 +87,9 @@ export default function Header() {
             </a>
           </div>
 
-          {/* Hamburger Button */}
+          {/* Hamburger Button - FIX: lg:hidden */}
           <button
-            className="md:hidden text-[#FF8C00] p-1 z-[110] outline-none"
+            className="lg:hidden text-[#FF8C00] p-1 z-[110] outline-none"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
           >
@@ -103,7 +98,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* MOBILE OVERLAY MENU (Universal Access Fix) */}
+      {/* MOBILE OVERLAY MENU */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -113,9 +108,7 @@ export default function Header() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 bg-black/98 backdrop-blur-xl z-[105] flex flex-col justify-center p-8 md:hidden h-screen w-screen"
           >
-            {/* Background Abstract Glow */}
             <div className="absolute top-1/4 -right-20 w-64 h-64 bg-[#FF8C00]/10 blur-[100px] rounded-full pointer-events-none" />
-
             <div className="flex flex-col space-y-6 relative z-10">
               {navLinks.map((link, idx) => (
                 <motion.div
@@ -133,7 +126,6 @@ export default function Header() {
                   </Link>
                 </motion.div>
               ))}
-
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

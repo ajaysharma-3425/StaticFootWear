@@ -10,5 +10,5 @@ export interface Product {
   description: string;
   sizes?: string[];
   isFeatured?: boolean;
-  colors?: string[];
+  colors?: { name: string; hex: string }[];
 }
