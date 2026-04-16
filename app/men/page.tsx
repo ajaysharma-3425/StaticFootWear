@@ -4,12 +4,22 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { products } from '../data/products';
 import ProductCard from '@/components/ProductCard';
 import { LayoutGrid, Star, ArrowDown } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function MenPage() {
   const [activeFilter, setActiveFilter] = useState('All');
-  const [viewMode, setViewMode] = useState('products');
+  const [viewMode, setViewMode] = useState<'products' | 'brands'>('products');
   const mensProducts = products.filter(p => p.category === 'men');
+
+  // Persist viewMode in localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('menViewMode');
+    if (saved === 'products' || saved === 'brands') setViewMode(saved);
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('menViewMode', viewMode);
+  }, [viewMode]);
 
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -24,12 +34,13 @@ export default function MenPage() {
     ? mensProducts
     : mensProducts.filter(p => p.subCategory === activeFilter.toLowerCase());
 
+  const menBrands = ['Nike', 'Adidas', 'Bata', 'Puma', 'Reebok', 'Skechers'];
+
   return (
     <main ref={containerRef} className="min-h-screen bg-[#020202] text-white pb-20 overflow-x-hidden">
 
-      {/* HERO SECTION */}
+      {/* HERO SECTION (bold & powerful) */}
       <section className="relative h-[85vh] md:h-screen flex items-center justify-center overflow-hidden border-b border-white/5">
-
         <motion.div style={{ scale }} className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1600"
@@ -76,39 +87,45 @@ export default function MenPage() {
 
         <div className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 sm:gap-3">
           <span className="text-[8px] sm:text-[9px] text-gray-500 uppercase tracking-[0.2em] sm:tracking-[0.3em] font-bold">Scroll to Explore</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
             <ArrowDown size={16} className="text-[#d4af37]" />
           </motion.div>
         </div>
       </section>
 
-      {/* FILTERS AREA */}
+      {/* FILTERS + VIEW TOGGLE - UPDATED */}
       <section className="container mx-auto px-4 md:px-6 py-12 sm:py-16">
         <div className="flex flex-col gap-8 sm:gap-10">
+          {/* Category filters - only visible in Products mode */}
+          {viewMode === 'products' && (
+            <div className="flex items-center justify-start overflow-x-auto pb-4 no-scrollbar gap-2 sm:gap-3 scrollbar-hide">
+              {subCats.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveFilter(cat)}
+                  className={`whitespace-nowrap px-4 sm:px-8 py-2 sm:py-3 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all border ${
+                    activeFilter === cat
+                      ? "bg-[#d4af37] text-black border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.3)]"
+                      : "bg-transparent text-gray-500 border-white/10 hover:border-[#d4af37]/50 hover:text-white"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          )}
 
-          <div className="flex items-center justify-start overflow-x-auto pb-4 no-scrollbar gap-2 sm:gap-3 scrollbar-hide">
-            {subCats.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveFilter(cat)}
-                className={`whitespace-nowrap px-4 sm:px-8 py-2 sm:py-3 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all border ${
-                  activeFilter === cat
-                    ? "bg-[#d4af37] text-black border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.3)]"
-                    : "bg-transparent text-gray-500 border-white/10 hover:border-[#d4af37]/50 hover:text-white"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
+          {/* Heading + View Toggle */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-white/5 pt-8 sm:pt-10">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-black italic uppercase tracking-tighter">
-              {activeFilter} <span className="text-[#d4af37]">Collection</span>
-            </h2>
+            {viewMode === 'products' ? (
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black italic uppercase tracking-tighter">
+                {activeFilter} <span className="text-[#d4af37]">Collection</span>
+              </h2>
+            ) : (
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black italic uppercase tracking-tighter">
+                Premium <span className="text-[#d4af37]">Brands</span>
+              </h2>
+            )}
             <div className="inline-flex items-center gap-2 bg-white/5 p-1 rounded-2xl border border-white/10">
               <button
                 onClick={() => setViewMode('products')}
@@ -131,13 +148,10 @@ export default function MenPage() {
         </div>
       </section>
 
-      {/* DYNAMIC GRID CONTENT */}
+      {/* DYNAMIC CONTENT (Products or Brands) */}
       <section className="container mx-auto px-4 md:px-6">
-
         <AnimatePresence mode="wait">
-
           {viewMode === 'products' ? (
-
             <motion.div
               key="products-grid"
               initial={{ opacity: 0, y: 20 }}
@@ -170,35 +184,32 @@ export default function MenPage() {
                 </div>
               )}
             </motion.div>
-
           ) : (
-
             <motion.div
               key="brands-grid"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4"
             >
-              {['Nike', 'Adidas', 'Bata', 'Puma', 'Reebok', 'Skechers'].map((brand) => (
-                <motion.div
-                  key={brand}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="aspect-square bg-white/[0.03] border border-white/5 rounded-[2rem] flex flex-col items-center justify-center group cursor-pointer p-3 sm:p-4"
-                >
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 bg-[#d4af37]/10 rounded-full mb-2 sm:mb-3 flex items-center justify-center group-hover:bg-[#d4af37] transition-all duration-500">
-                    <span className="text-white group-hover:text-black font-black text-base sm:text-lg md:text-xl italic">{brand[0]}</span>
-                  </div>
-                  <p className="text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors text-center">{brand}</p>
-                </motion.div>
+              {menBrands.map((brand) => (
+                <Link href={`/men/brand/${brand.toLowerCase()}`} key={brand}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="aspect-square bg-white/[0.03] border border-white/5 rounded-[2rem] flex flex-col items-center justify-center group cursor-pointer p-3 sm:p-4 hover:border-[#d4af37]/50 transition-all"
+                  >
+                    <div className="w-10 h-10 sm:w-16 sm:h-16 bg-[#d4af37]/10 rounded-full mb-3 flex items-center justify-center group-hover:bg-[#d4af37] transition-all duration-500">
+                      <span className="text-white group-hover:text-black font-black text-xl italic">{brand[0]}</span>
+                    </div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 group-hover:text-white transition-colors text-center">
+                      {brand}
+                    </p>
+                  </motion.div>
+                </Link>
               ))}
             </motion.div>
-
           )}
-
         </AnimatePresence>
-
       </section>
 
       {/* FOOTER PROMO */}
