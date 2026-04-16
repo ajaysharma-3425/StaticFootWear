@@ -5,8 +5,14 @@ import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 
 export const metadata: Metadata = {
-  title: 'Footwear Shop',
+  title: 'Minal Footwear',
   description: 'Premium footwear for men, women, and kids',
+  // Browser tab (Deepseek jaisa icon) ke liye yahan sahi path hai:
+  icons: {
+    icon: '/images/footcare.png',      // 'public' word hata diya hai
+    shortcut: '/images/footcare.png',
+    apple: '/images/footcare.png',
+  },
 };
 
 export default function RootLayout({
@@ -16,9 +22,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="antialiased">
         <Header />
-        {children}
+        <main>
+          {children}
+        </main>
         <Footer />
         <WhatsAppButton />
       </body>
