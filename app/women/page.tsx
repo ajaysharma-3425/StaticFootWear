@@ -66,7 +66,7 @@ export default function WomenPage() {
             <div className="flex justify-center mb-6">
               <Sparkles className="text-[#d4af37] animate-bounce" size={24} />
             </div>
-            <h1 className="text-6xl md:text-8xl lg:text-[5rem] font-black italic tracking-tighter leading-[0.8] mb-6">
+            <h1 className="text-4xl md:text-6xl lg:text-[5rem] font-black italic tracking-tighter leading-[0.8] mb-6">
               GRACE <br />
               <span className="font-light text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#fff] to-[#d4af37]">
                 IN EVERY STEP.
