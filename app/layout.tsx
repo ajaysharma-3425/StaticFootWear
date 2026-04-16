@@ -1,14 +1,15 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Ubuntu } from 'next/font/google'; // Ubuntu font import kiya
+import { Lexend } from 'next/font/google'; // Lexend import kiya
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 
-// Font configuration
-const ubuntu = Ubuntu({ 
+// Lexend configuration
+// Footwear web ke liye 300 (Light) aur 400 (Regular) weight kaafi 'cool' aur clean dikhte hain
+const lexend = Lexend({ 
   subsets: ['latin'],
-  weight: ['300', '400', '500', '700'], // Light, Regular, Medium, aur Bold weights
+  weight: ['300', '400', '500', '600'], 
   display: 'swap',
 });
 
@@ -29,8 +30,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* Body tag me ubuntu.className apply kar diya */}
-      <body className={`${ubuntu.className} antialiased`}>
+      {/* Body tag me lexend.className apply kar diya */}
+      <body className={`${lexend.className} antialiased`}>
         <Header />
         <main>
           {children}
