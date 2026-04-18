@@ -24,5 +24,21 @@ export const brands: Brand[] = [
     productIds: [],
     description: 'Sport the unexpected.',
     image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2'
+  },
+  {
+    id: 'Skechers',
+    name: 'Skechers',
+    logoText: 'S',
+    productIds: [],
+    description: 'Sport the unexpected.',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn6EP63vgzcVmuQ5xzZG4FXjwisIpDuCGCRA&s'
+  },
+  {
+    id: 'Bata',
+    name: 'Bata',
+    logoText: 'B',
+    productIds: [],
+    description: 'Sport the unexpected.',
+    image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2'
   }
 ];

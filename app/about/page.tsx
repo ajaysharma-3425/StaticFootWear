@@ -80,7 +80,7 @@ export default function AboutPage() {
             <div className="flex justify-center mb-6">
                <div className="px-4 py-1 border border-[#d4af37]/30 rounded-full bg-[#d4af37]/5 backdrop-blur-md">
                  <span className="text-[#d4af37] text-[10px] font-black uppercase tracking-[0.4em] flex items-center gap-2">
-                   <Sparkles size={12} /> Established 2011
+                   <Sparkles size={12} /> Established 1993
                  </span>
                </div>
             </div>

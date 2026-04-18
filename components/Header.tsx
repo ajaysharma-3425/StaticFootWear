@@ -4,11 +4,12 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isBrandsOpen, setIsBrandsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +25,12 @@ export default function Header() {
     { name: 'Kids', href: '/kids' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
+  ];
+
+  const brandLinks = [
+    { name: 'Men Brands', href: '/brands/men' },
+    { name: 'Women Brands', href: '/brands/women' },
+    { name: 'Kids Brands', href: '/brands/kids' },
   ];
 
   return (
@@ -62,8 +69,44 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* CENTER: DESKTOP NAV - FIX: lg:flex */}
+        {/* CENTER: DESKTOP NAV */}
         <nav className="hidden lg:flex items-center space-x-8">
+          {/* New Brands Dropdown */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setIsBrandsOpen(true)}
+            onMouseLeave={() => setIsBrandsOpen(false)}
+          >
+            <button className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-300 hover:text-[#FF8C00] transition-colors group">
+              Brands
+              <ChevronDown size={12} className={`transition-transform duration-300 ${isBrandsOpen ? 'rotate-180' : ''}`} />
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#FF8C00] transition-all group-hover:w-full" />
+            </button>
+
+            <AnimatePresence>
+              {isBrandsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 mt-2 w-48 bg-black/95 border border-white/10 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl"
+                >
+                  <div className="py-2">
+                    {brandLinks.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className="block px-6 py-3 text-[9px] font-bold uppercase tracking-widest text-gray-400 hover:text-[#FF8C00] hover:bg-white/5 transition-all"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -87,7 +130,6 @@ export default function Header() {
             </a>
           </div>
 
-          {/* Hamburger Button - FIX: lg:hidden */}
           <button
             className="lg:hidden text-[#FF8C00] p-1 z-[110] outline-none"
             onClick={() => setIsOpen(!isOpen)}
@@ -98,7 +140,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* MOBILE OVERLAY MENU */}
+      {/* MOBILE OVERLAY MENU (Same as before) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -138,9 +180,6 @@ export default function Header() {
                 >
                   CALL NOW
                 </a>
-                <p className="text-[8px] text-center text-white/30 tracking-[0.5em] uppercase">
-                  Ahmedabad's Premium Footwear
-                </p>
               </motion.div>
             </div>
           </motion.div>
