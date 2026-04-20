@@ -35,9 +35,9 @@ export default function Header() {
 
   // Specific Brand IDs ke sath links
   const brandLinks = [
-    { name: 'Men Brands', href: '/men' }, // Ye aapke toggle logic par jayega
-    { name: 'Women Brands', href: '/women' },
-    { name: 'Kids Brands', href: '/kids' },
+    { name: 'Men Brands', href: '/brands/men' }, // Ye aapke toggle logic par jayega
+    { name: 'Women Brands', href: '/brands/women' },
+    { name: 'Kids Brands', href: '/brands/kids' },
   ];
 
   return (

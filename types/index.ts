@@ -5,7 +5,8 @@ export interface Product {
   article: string;
   price: number;
   category: 'men' | 'women' | 'kids';
-  subCategory?: string; // e.g., 'sports', 'casual'
+  subCategory?: string;
+  material?: string; // e.g., 'sports', 'casual'
   images: string[];
   description: string;
   sizes?: string[];
