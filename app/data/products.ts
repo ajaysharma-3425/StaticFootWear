@@ -36,6 +36,23 @@ export const products: Product[] = [
     ]
   },
   {
+    id: 'mens-running-5',
+    name: "Men's Nike Running sandals",
+    article: 'OX-2026-Nike',
+    price: 4999,
+    category: 'men',
+    subCategory: 'sandals',
+    images: ['/images/men.jpg'],
+    description: 'Lightweight and breathable running casual shoes.',
+    sizes: ['7', '8', '9', '10'],
+    isFeatured: true,
+    colors: [
+      { name: 'Black', hex: '#000000' },
+      { name: 'Fire Brick', hex: '#B22222' },
+      { name: 'Navy Blue', hex: '#1A237E' }
+    ]
+  },
+  {
     id: 'womens-casual-shoe-1',
     name: "Women's Casual Sneakers",
     article: 'OX-2026-BLK',
