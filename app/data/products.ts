@@ -65,6 +65,38 @@ export const products: Product[] = [
     isFeatured: true,
   },
   {
+    id: 'womens-sneakers-shoe-1',
+    name: "DRUK-Combit Sneakers",
+    article: 'ANGEL-1',
+    price: 800,
+    category: 'women',
+    subCategory: 'sneakers',
+    images: ['/images/Sneakers.png'],
+    description: 'Comfortable everyday Sneakers.',
+    sizes: ['5', '6', '7'],
+    isFeatured: true,
+    colors: [
+      { name: 'Taupe', hex: '#483C32' },
+      { name: 'Purple', hex: '#800080' },
+    ]
+  },
+  {
+    id: 'womens-Campus-shoe-1',
+    name: "Campus-Sport Shoes",
+    article: 'SHEAR',
+    price: 800,
+    category: 'women',
+    subCategory: 'sports',
+    images: ['/images/Campus_1.png'],
+    description: 'Comfortable Campus Shoes.',
+    sizes: ['5', '6', '7','8'],
+    isFeatured: true,
+    colors: [
+      { name: 'Sky', hex: '#87CEEB' },
+    ]
+  },
+  {
+
     id: 'womens-heels-1',
     name: "Women's Platform Chappals",
     article: 'Designer Chappals',
