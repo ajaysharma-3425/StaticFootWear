@@ -255,7 +255,7 @@ export default function Home() {
             href={viewAllLink}
             className="flex items-center gap-2 text-white hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all font-bold uppercase text-[10px] tracking-widest bg-white/5 px-6 py-3.5 rounded-full border border-white/10 max-w-max h-max"
           >
-            See All {activeTab === 'men' ? 'Gents' : activeTab === 'women' ? 'Ladies' : 'Kids'} <ChevronRight size={14} />
+            See All {activeTab === 'men' ? 'Gents' : activeTab === 'women' ? 'Ladies' : 'Kids'} Wear <ChevronRight size={14} /> 
           </Link>
         </div>
 
