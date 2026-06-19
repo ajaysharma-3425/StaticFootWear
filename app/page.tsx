@@ -17,7 +17,17 @@ const TYPEWRITER_WORDS = [
 
 export default function Home() {
   const [isActionOpen, setIsActionOpen] = useState(false);
-  const featuredProducts = products.filter(p => p.isFeatured);
+  
+  // Tab state control for categories: 'men' | 'women' | 'kids'
+  const [activeTab, setActiveTab] = useState<'men' | 'women' | 'kids'>('men');
+
+  // Filter products based on active categories tab and only show maximum 4 items
+  const filteredCollection = products
+    .filter(p => p.isFeatured && p.category?.toLowerCase() === activeTab)
+    .slice(0, 4);
+
+  // Dynamic route generation mapping based on selected tab control
+  const viewAllLink = activeTab === 'men' ? '/men' : activeTab === 'women' ? '/women' : '/kids';
 
   const [wordIdx, setWordIdx] = useState(0);
   const [currentText, setCurrentText] = useState("");
@@ -214,25 +224,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. FEATURED PRODUCTS */}
+      {/* 4. FEATURED PRODUCTS (WITH SEPARATED TABS FILTER & MAX 4 ITEMS LIMIT) */}
       <section id="collection" className="container mx-auto px-4 md:px-10 py-20 bg-[#080808]/50 rounded-[3rem] border border-white/5">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 px-4">
-          <div className="mb-4 md:mb-0 text-left">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 px-4 gap-6">
+          
+          <div className="mb-4 lg:mb-0 text-left">
             <span className="text-[#d4af37] font-bold text-[10px] uppercase tracking-[0.3em] block mb-1">Editor's Choice</span>
             <h2 className="text-2xl md:text-4xl font-bold tracking-tight uppercase">Elite Collection</h2>
+            
+            {/* Elegant Sub-Category Tabs Selection Buttons Setup */}
+            <div className="flex gap-2 mt-5 bg-black/60 p-1.5 rounded-full border border-white/5 max-w-max">
+              {(['men', 'women', 'kids'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-5 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${
+                    activeTab === tab 
+                      ? 'bg-[#d4af37] text-black shadow-md' 
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {tab === 'men' ? 'Gents' : tab === 'women' ? 'Ladies' : 'Kids'}
+                </button>
+              ))}
+            </div>
           </div>
-          <button
-            className="flex items-center gap-2 text-white hover:text-[#d4af37] transition-all font-bold uppercase text-[10px] tracking-widest bg-white/5 px-6 py-3 rounded-full border border-white/10"
+
+          {/* Navigates directly to the page corresponding to the currently selected tab */}
+          <Link
+            href={viewAllLink}
+            className="flex items-center gap-2 text-white hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all font-bold uppercase text-[10px] tracking-widest bg-white/5 px-6 py-3.5 rounded-full border border-white/10 max-w-max h-max"
           >
-            See All <ChevronRight size={14} />
-          </button>
+            See All {activeTab === 'men' ? 'Gents' : activeTab === 'women' ? 'Ladies' : 'Kids'} <ChevronRight size={14} />
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {/* Dynamic products display container block */}
+        {filteredCollection.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {filteredCollection.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 text-gray-500 text-sm tracking-wide">
+            No featured products available for this category.
+          </div>
+        )}
       </section>
 
       {/* 5. PREMIUM CONTACT SECTION */}
