@@ -149,12 +149,7 @@ export default function AboutPage() {
                 Jab aap Minal Footwear ka pehla joota pehenenge, aapko fark mehsoos hoga—wo premium leather ki khushbu aur wo perfect stitching.
               </p>
               
-              <div className="pt-6 flex flex-wrap gap-4">
-                <div className="px-6 py-4 bg-white/5 border border-[#d4af37]/30 rounded-2xl">
-                   <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Use Coupon Code</p>
-                   <p className="text-[#d4af37] font-black text-xl italic tracking-tighter">FIRSTMINAL10</p>
-                </div>
-              </div>
+              
             </div>
           </motion.div>
         </div>

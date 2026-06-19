@@ -3,13 +3,42 @@
 import { motion } from 'framer-motion';
 import { products } from './data/products';
 import ProductCard from '@/components/ProductCard';
-import { ChevronRight, MapPin, Phone, Star, ArrowRight, Instagram, ShoppingBag } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
+import { ChevronRight, MapPin, Phone, Star, ArrowRight, ShoppingBag } from 'lucide-react';
+import { useState, useEffect } from 'react';
+
+// Mixed-case attractive phrases with discount items
+const TYPEWRITER_WORDS = [
+  "10% Discount on Regular Items",
+  "5% Discount on Brands",
+  "Your Perfect Fit",
+  "Step in Style",
+  "Luxury Footwear"
+];
 
 export default function Home() {
   const [isActionOpen, setIsActionOpen] = useState(false);
   const featuredProducts = products.filter(p => p.isFeatured);
+
+  const [wordIdx, setWordIdx] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    const fullWord = TYPEWRITER_WORDS[wordIdx];
+    
+    if (currentText === fullWord) {
+      timer = setTimeout(() => {
+        setCurrentText("");
+        setWordIdx((prev) => (prev + 1) % TYPEWRITER_WORDS.length);
+      }, 2000);
+    } else {
+      timer = setTimeout(() => {
+        setCurrentText(fullWord.substring(0, currentText.length + 1));
+      }, 80);
+    }
+
+    return () => clearTimeout(timer);
+  }, [currentText, wordIdx]);
 
   const brandLogos = [
     { name: "Bata", src: "/images/Bata.png" },
@@ -23,145 +52,141 @@ export default function Home() {
   ];
 
   return (
-    // Added 'font-ubuntu' and slightly adjusted base text
     <main className="min-h-screen bg-[#050505] text-white overflow-hidden" style={{ fontFamily: "'Ubuntu', sans-serif" }}>
 
-      {/* 1. LUXURY HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center pt-20">
-        <div className="absolute top-[-10%] left-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#d4af37]/20 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute top-1/2 right-[-5%] w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-[#d4af37]/10 blur-[100px] rounded-full" />
+      {/* 1. BRAND SPLIT HERO SECTION WITH UNDER-LOGO BRANDING */}
+      <section className="relative min-h-screen flex items-center pt-28 pb-12 overflow-hidden">
+        
+        {/* Ambient Glows */}
+        <div className="absolute top-[-10%] left-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#d4af37]/10 blur-[150px] rounded-full animate-pulse z-10" />
+        <div className="absolute bottom-10 right-[-5%] w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-[#d4af37]/5 blur-[120px] rounded-full z-10" />
 
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d4af37]/40 bg-[#d4af37]/10 text-[#d4af37] text-[10px] md:text-[11px] font-medium tracking-[0.2em] uppercase mb-6 backdrop-blur-sm">
-                <Star size={12} fill="#d4af37" />
-                Ahmedabad's Finest Footwear Since 1993
-              </span>
+        <div className="container mx-auto px-6 relative z-20 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* LEFT SIDE: Image Frame + Brand Name directly underneath */}
+            <div className="lg:col-span-5 flex flex-col justify-center items-center order-1 gap-5">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative w-full max-w-[300px] sm:max-w-[360px] md:max-w-[400px] aspect-square bg-white/[0.01] p-6 sm:p-8 rounded-[2.5rem] border border-white/5 shadow-[0_0_40px_rgba(212,175,55,0.03)] flex items-center justify-center group"
+              >
+                <img
+                  src="images/footcare.png"
+                  alt="Minal Footwear Iconic Premium Logo"
+                  className="w-full h-full object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)] transform group-hover:scale-[1.02] transition-transform duration-500 select-none"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (!target.src.includes('public/')) {
+                      target.src = 'images/footcare.png';
+                    }
+                  }}
+                />
+              </motion.div>
 
-              {/* Reduced size from 10rem to 4xl/6xl */}
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight uppercase">
-                Redefining <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#d4af37] via-[#f9f9f9] to-[#d4af37]">
-                  Urban Luxury
+              {/* Perfectly Styled Brand Typography under the logo */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-center"
+              >
+                <h2 className="text-2xl sm:text-3xl font-black tracking-[0.25em] uppercase italic text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-white to-[#d4af37] drop-shadow-[0_2px_10px_rgba(212,175,55,0.2)]">
+                  Minal Footwear
+                </h2>
+                <div className="w-12 h-[2px] bg-[#d4af37] mx-auto mt-2 opacity-60 rounded-full" />
+              </motion.div>
+            </div>
+
+            {/* RIGHT SIDE: Store Info, Description & Discount Typewriter */}
+            <div className="lg:col-span-7 text-center lg:text-left order-2 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+              >
+                {/* Badge */}
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#d4af37]/30 bg-[#d4af37]/5 text-[#d4af37] text-[10px] md:text-[11px] font-bold tracking-[0.15em] uppercase mb-4 backdrop-blur-sm">
+                  <Star size={11} fill="#d4af37" />
+                  Ahmedabad's Finest Footwear Since 1993
                 </span>
-              </h1>
 
-              {/* Reduced from 2xl to base/lg */}
-              <p className="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-                Step into a world where premium craftsmanship meets modern aesthetics.
-                Curating global luxury brands for the elite of Ahmedabad.
-              </p>
+                {/* Heading with refined typography */}
+                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight mb-4">
+                  Redefining <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#d4af37] via-[#f9f9f9] to-[#d4af37] drop-shadow-[0_0_15px_rgba(212,175,55,0.1)] inline-block relative min-h-[36px] sm:min-h-[48px] md:min-h-[64px]">
+                    {currentText}
+                    <span className="inline-block w-[2.5px] h-[24px] sm:h-[36px] md:h-[48px] bg-[#d4af37] ml-1.5 animate-pulse align-middle" />
+                  </span>
+                </h1>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <motion.a
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  href="#collection"
-                  className="w-full sm:w-auto px-8 py-4 bg-[#d4af37] text-black font-bold rounded-full uppercase text-xs tracking-widest shadow-xl transition-all flex items-center justify-center gap-2"
-                >
-                  <ShoppingBag size={16} /> Shop Collection
-                </motion.a>
-                <motion.a
-                  whileHover={{ backgroundColor: "rgba(212,175,55,0.1)" }}
-                  href="#brands"
-                  className="w-full sm:w-auto px-8 py-4 border border-[#d4af37]/30 rounded-full text-xs font-bold uppercase tracking-widest backdrop-blur-md transition-all text-[#d4af37]"
-                >
-                  Our Partners
-                </motion.a>
-              </div>
-            </motion.div>
+                {/* Subtitle description */}
+                <p className="text-gray-400 text-xs sm:text-sm md:text-base max-w-xl mx-auto lg:mx-0 font-light leading-relaxed mb-6">
+                  Welcome to Minal Footwear—where rich heritage of premium craftsmanship meets elite urban style. 
+                  We curate exceptional, authentic global brands ensuring comfort and prestige with every step you take.
+                </p>
+
+                {/* Action Controls */}
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5">
+                  <a
+                    href="#collection"
+                    className="w-full sm:w-auto px-7 py-3.5 bg-[#d4af37] text-black font-bold rounded-full uppercase text-xs tracking-widest shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+                  >
+                    <ShoppingBag size={14} /> Shop Collection
+                  </a>
+                  <a
+                    href="#brands"
+                    className="w-full sm:w-auto px-7 py-3.5 border border-[#d4af37]/30 hover:bg-white/5 rounded-full text-xs font-bold uppercase tracking-widest transition-all text-[#d4af37] flex items-center justify-center"
+                  >
+                    Our Partners
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* 2. INFINITE BRAND SLIDER */}
       <section id="brands" className="py-24 bg-black border-y border-white/5 relative overflow-hidden">
-
         <div className="container mx-auto px-6 mb-12 text-center">
-
           <p className="text-xs uppercase tracking-[0.5em] text-[#d4af37] font-bold">Authorized Retailer</p>
-
         </div>
-
-
 
         <div className="relative flex overflow-hidden">
-
           <div className="flex whitespace-nowrap animate-scroll items-center py-6">
-
             {[...brandLogos, ...brandLogos].map((brand, i) => (
-
               <div key={i} className="flex items-center justify-center mx-6 md:mx-10 group">
-
-                {/* Logo Container: Size increased and rounded corner is larger */}
-
-                <div className="relative w-44 h-22 md:w-56 md:h-28 flex items-center justify-center bg-[#d4af37]  backdrop-blur-sm rounded-[2rem] border border-white/5 transition-all duration-500 group-hover:bg-white group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]">
-
-                  {/* Image Wrapper: Defines the maximum size the actual logo image can take */}
-
+                <div className="relative w-44 h-22 md:w-56 md:h-28 flex items-center justify-center bg-[#d4af37] backdrop-blur-sm rounded-[2rem] border border-white/5 transition-all duration-500 group-hover:bg-white group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.25)]">
                   <div className="relative w-36 h-18 md:w-48 md:h-24">
-
-                    <Image
-
+                    <img
                       src={brand.src}
-
                       alt={brand.name}
-
-                      fill
-
-                      className="object-contain transition-all duration-500"
-
-                      sizes="(max-width: 768px) 150px, 200px"
-
+                      className="w-full h-full object-contain transition-all duration-500"
                     />
-
                   </div>
-
                 </div>
-
               </div>
-
             ))}
-
           </div>
-
         </div>
 
-
-
         <style jsx>{`
-
-    @keyframes scroll {
-
-      0% { transform: translateX(0); }
-
-      100% { transform: translateX(-50%); }
-
-    }
-
-    .animate-scroll {
-
-      display: flex;
-
-      width: max-content;
-
-      animation: scroll 35s linear infinite; /* Animation slow kar di taki bade logos clear dikhein */
-
-    }
-
-    .animate-scroll:hover {
-
-      animation-play-state: paused;
-
-    }
-
-  `}</style>
-
+          @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-scroll {
+            display: flex;
+            width: max-content;
+            animation: scroll 35s linear infinite;
+          }
+          .animate-scroll:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
       </section>
 
       {/* 3. ENHANCED CATEGORY GRID */}
@@ -172,20 +197,19 @@ export default function Home() {
             { name: "Women's Luxe", link: "/women", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=800", count: "85+ Products" },
             { name: "Junior Style", link: "/kids", img: "https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=800", count: "50+ Products" }
           ].map((cat, idx) => (
-            <Link key={idx} href={cat.link} className="group relative h-[400px] md:h-[500px] rounded-[2rem] overflow-hidden border border-white/10 block">
+            <a key={idx} href={cat.link} className="group relative h-[400px] md:h-[500px] rounded-[2rem] overflow-hidden border border-white/10 block">
               <img src={cat.img} alt={cat.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-50" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-
               <div className="absolute bottom-8 left-8 right-8 flex items-end justify-between">
                 <div className="space-y-1">
                   <p className="text-[#d4af37] text-[10px] font-bold tracking-widest uppercase">{cat.count}</p>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight uppercase">{cat.name}</h3>
+                  <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight uppercase">{cat.name}</h3>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center transition-all group-hover:bg-[#d4af37]">
-                  <ArrowRight size={20} />
+                  <ArrowRight size={18} />
                 </div>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </section>
@@ -195,13 +219,13 @@ export default function Home() {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 px-4">
           <div className="mb-4 md:mb-0 text-left">
             <span className="text-[#d4af37] font-bold text-[10px] uppercase tracking-[0.3em] block mb-1">Editor's Choice</span>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase">Elite Collection</h2>
+            <h2 className="text-2xl md:text-4xl font-bold tracking-tight uppercase">Elite Collection</h2>
           </div>
-          <motion.button
+          <button
             className="flex items-center gap-2 text-white hover:text-[#d4af37] transition-all font-bold uppercase text-[10px] tracking-widest bg-white/5 px-6 py-3 rounded-full border border-white/10"
           >
             See All <ChevronRight size={14} />
-          </motion.button>
+          </button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -216,7 +240,7 @@ export default function Home() {
         <div className="bg-gradient-to-br from-[#0a0a0a] to-[#050505] rounded-[3rem] p-8 md:p-16 border border-white/5 relative overflow-hidden">
           <div className="flex flex-col lg:flex-row items-center gap-12 relative z-10">
             <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
-              <h2 className="text-4xl md:text-6xl font-bold text-white uppercase leading-tight">
+              <h2 className="text-3xl md:text-5xl font-bold text-white uppercase leading-tight">
                 Visit Our <br /><span className="text-[#d4af37]">Flagship Store</span>
               </h2>
               <p className="text-gray-400 text-sm md:text-base font-light leading-relaxed max-w-lg">
@@ -253,47 +277,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mobile Footer */}
-      {/* Mobile Footer - Refined Position and Sizes */}
+      {/* Mobile Actions Menu */}
       <div className="md:hidden fixed bottom-20 right-4 z-[60] flex flex-col items-center gap-4">
-
-        {/* 1. Call Button */}
-        <motion.a
-          initial={{ opacity: 0, y: 10, scale: 0.8 }}
-          animate={isActionOpen ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.8 }}
+        <a
           href="tel:7600727603"
           className={`w-11 h-11 bg-white text-black flex items-center justify-center rounded-full shadow-xl border border-gray-100 ${!isActionOpen && 'pointer-events-none'}`}
         >
           <Phone size={18} />
-        </motion.a>
+        </a>
 
-        {/* 2. Map Button */}
-        <motion.a
-          initial={{ opacity: 0, y: 10, scale: 0.8 }}
-          animate={isActionOpen ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.8 }}
-          transition={{ delay: 0.05 }}
+        <a
           href="/contact"
           className={`w-11 h-11 bg-white text-black flex items-center justify-center rounded-full shadow-xl border border-gray-100 ${!isActionOpen && 'pointer-events-none'}`}
         >
           <MapPin size={18} />
-        </motion.a>
+        </a>
 
-        {/* 3. Main Toggle Button (Arrow Up/Down) */}
         <button
           onClick={() => setIsActionOpen(!isActionOpen)}
           className="w-12 h-12 bg-[#d4af37] text-black flex items-center justify-center rounded-full shadow-lg active:scale-90 transition-all z-10"
         >
           <motion.div
-            animate={{ rotate: isActionOpen ? 180 : 0 }} // Click hone par arrow rotate hoga
+            animate={{ rotate: isActionOpen ? 180 : 0 }}
             className="flex items-center justify-center"
           >
             <ChevronRight size={24} className="-rotate-90" />
           </motion.div>
         </button>
-
-        {/* 4. WhatsApp Icon (Stays at the bottom) */}
-       
-
       </div>
     </main>
   );
