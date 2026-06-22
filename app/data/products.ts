@@ -41,7 +41,7 @@ export const products: Product[] = [
     article: 'OX-2026-Nike',
     price: 4999,
     category: 'men',
-    subCategory: 'sandals',
+    subCategory: 'sandal',
     images: ['/images/men.jpg'],
     description: 'Lightweight and breathable running casual shoes.',
     sizes: ['7', '8', '9', '10'],
@@ -96,6 +96,36 @@ export const products: Product[] = [
     ]
   },
   {
+    id: 'womens-Campus-sandals',
+    name: "Campus-Sandals",
+    article: 'SHEAR-1',
+    price: 900,
+    category: 'women',
+    subCategory: 'sandal',
+    images: ['/images/Campus_1.png'],
+    description: 'Comfortable Campus Sandals.',
+    sizes: ['5', '6', '7','8'],
+    isFeatured: true,
+    colors: [
+      { name: 'Sky', hex: '#87CEEB' },
+    ]
+  },
+  {
+    id: 'womens-Campus-crox',
+    name: "Campus-Crox",
+    article: 'SHEAR-3',
+    price: 700,
+    category: 'women',
+    subCategory: 'crox',
+    images: ['/images/Campus_1.png'],
+    description: 'Comfortable Campus Crox.',
+    sizes: ['5', '6', '7','8'],
+    isFeatured: true,
+    colors: [
+      { name: 'Sky', hex: '#87CEEB' },
+    ]
+  },
+  {
 
     id: 'womens-heels-1',
     name: "Women's Platform Chappals",
@@ -138,6 +168,23 @@ export const products: Product[] = [
     category: 'women',
     subCategory: 'flats',
     images: ['/images/flats_1.png'],
+    description: 'Flat Chappals.',
+    sizes: ['40', '41', '42'],
+    isFeatured: true,
+    colors: [
+      { name: 'Purple', hex: '#A020F0' },
+      { name: 'Khakhi', hex: '#F0E68C' },
+
+    ]
+  },
+  {
+    id: 'womens-flats-2',
+    name: "Women's Flat Chappals",
+    article: 'Prem Chappals',
+    price: 550,
+    category: 'women',
+    subCategory: 'flats',
+    images: ['/images/Flats_2.png'],
     description: 'Flat Chappals.',
     sizes: ['40', '41', '42'],
     isFeatured: true,

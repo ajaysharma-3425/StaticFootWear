@@ -5,7 +5,7 @@ export const brands: Brand[] = [
     id: 'nike',
     name: 'Nike',
     logoText: 'N',
-    productIds: ['mens-running', 'mens-running-shoe-2'],
+    productIds: ['mens-running', 'mens-running-shoe-2','mens-running-5'],
     description: 'Just Do It. Premium athletic footwear.',
     image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff'
   },
