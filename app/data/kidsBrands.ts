@@ -3,9 +3,9 @@ import { Brand } from '../../types/brand';
 
 export const kidsBrands: Brand[] = [
   {
-    id: 'nike-kids',
-    name: 'Nike Kids',
-    logoText: 'N',
+    id: 'campus-kids',
+    name: 'Campus Kids',
+    logoText: 'C',
     productIds: [],   // add product IDs later
     description: 'Playful, durable footwear for active kids.',
     image: 'https://images.unsplash.com/photo-1514989940723-e8e51635b782'

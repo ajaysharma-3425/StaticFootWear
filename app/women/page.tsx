@@ -8,23 +8,23 @@ import { useState, useRef, useMemo } from 'react';
 
 export default function WomenPage() {
   const [filter, setFilter] = useState('All');
-  
+
   const womenProducts = products.filter(p => p.category === 'women');
 
   // UPDATED: More detailed grouping logic
   const groupedProducts = useMemo(() => {
-    const filtered = filter === 'All' 
-      ? womenProducts 
+    const filtered = filter === 'All'
+      ? womenProducts
       : womenProducts.filter(p => p.subCategory === filter.toLowerCase());
 
     return filtered.reduce((acc, product) => {
       const name = product.name.toLowerCase();
-      let section = "PREMIUM COLLECTION"; 
+      let section = "PREMIUM COLLECTION";
 
       // 1. Heels logic
       if (name.includes('heel') || name.includes('pencil') || name.includes('pump')) {
         section = "LUXURY HEELS";
-      } 
+      }
       // 2. Sneakers logic
       else if (name.includes('sneaker') || name.includes('shoe') || name.includes('sport')) {
         section = "FASHION SNEAKERS";
@@ -32,16 +32,19 @@ export default function WomenPage() {
       // 3. Sandals logic
       else if (name.includes('sandal') || name.includes('wedge')) {
         section = "STYLISH SANDALS";
-      } 
+      }
+      else if (name.includes('crox') || name.includes('crocs') || name.includes('clog')) {
+        section = "CROCS & CLOGS";
+      }
       // 4. Flats & Chappals logic
       else if (name.includes('chappal') || name.includes('flat') || name.includes('slipper') || name.includes('jutti')) {
         section = "CASUAL FLATS & CHAPPALS";
-      }
+      } 
 
-      if (!acc[section]) acc[section] = [];
-      acc[section].push(product);
-      return acc;
-    }, {} as Record<string, typeof womenProducts>);
+        if (!acc[section]) acc[section] = [];
+        acc[section].push(product);
+        return acc;
+      }, { } as Record<string, typeof womenProducts>);
   }, [filter, womenProducts]);
 
   const containerRef = useRef(null);
@@ -56,7 +59,7 @@ export default function WomenPage() {
 
   return (
     <main ref={containerRef} className="min-h-screen bg-[#030303] text-white pb-20 overflow-x-hidden">
-      
+
       {/* HERO SECTION */}
       <section className="relative h-[85vh] md:h-screen flex items-center justify-center overflow-hidden">
         <motion.div style={{ scale }} className="absolute inset-0 z-0">
@@ -98,11 +101,10 @@ export default function WomenPage() {
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all duration-500 border ${
-                  filter === cat 
-                    ? "bg-[#d4af37] text-black border-[#d4af37] shadow-[0_0_25px_rgba(212,175,55,0.2)]" 
+                className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all duration-500 border ${filter === cat
+                    ? "bg-[#d4af37] text-black border-[#d4af37] shadow-[0_0_25px_rgba(212,175,55,0.2)]"
                     : "bg-white/5 text-gray-500 border-white/5 hover:text-white hover:border-[#d4af37]/30"
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -170,7 +172,7 @@ export default function WomenPage() {
             "A shoe is not only a design, but it's a part of your body language."
           </p>
           <div className="mt-8 flex justify-center gap-1">
-            {[1,2,3,4,5].map(i => <Star key={i} size={10} className="text-[#d4af37] fill-[#d4af37]" />)}
+            {[1, 2, 3, 4, 5].map(i => <Star key={i} size={10} className="text-[#d4af37] fill-[#d4af37]" />)}
           </div>
         </div>
       </section>
