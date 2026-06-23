@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { products } from './data/products';
 import ProductCard from '@/components/ProductCard';
 import { ChevronRight, MapPin, Phone, Star, ArrowRight, ShoppingBag } from 'lucide-react';
@@ -224,7 +224,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. FEATURED PRODUCTS (WITH SEPARATED TABS FILTER & MAX 4 ITEMS LIMIT) */}
+      {/* 4. FEATURED PRODUCTS */}
       <section id="collection" className="container mx-auto px-4 md:px-10 py-20 bg-[#080808]/50 rounded-[3rem] border border-white/5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 px-4 gap-6">
           
@@ -232,7 +232,6 @@ export default function Home() {
             <span className="text-[#d4af37] font-bold text-[10px] uppercase tracking-[0.3em] block mb-1">Editor's Choice</span>
             <h2 className="text-2xl md:text-4xl font-bold tracking-tight uppercase">Elite Collection</h2>
             
-            {/* Elegant Sub-Category Tabs Selection Buttons Setup */}
             <div className="flex gap-2 mt-5 bg-black/60 p-1.5 rounded-full border border-white/5 max-w-max">
               {(['men', 'women', 'kids'] as const).map((tab) => (
                 <button
@@ -250,7 +249,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Navigates directly to the page corresponding to the currently selected tab */}
           <Link
             href={viewAllLink}
             className="flex items-center gap-2 text-white hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all font-bold uppercase text-[10px] tracking-widest bg-white/5 px-6 py-3.5 rounded-full border border-white/10 max-w-max h-max"
@@ -259,7 +257,6 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Dynamic products display container block */}
         {filteredCollection.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredCollection.map((product) => (
@@ -315,31 +312,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mobile Actions Menu */}
-      <div className="md:hidden fixed bottom-20 right-4 z-[60] flex flex-col items-center gap-4">
-        <a
-          href="tel:7600727603"
-          className={`w-11 h-11 bg-white text-black flex items-center justify-center rounded-full shadow-xl border border-gray-100 ${!isActionOpen && 'pointer-events-none'}`}
-        >
-          <Phone size={18} />
-        </a>
+      {/* --- FIXED MOBILE ACTIONS MENU --- */}
+      <div className="md:hidden fixed bottom-20 right-4 z-[60] flex flex-col items-center gap-3">
+        <AnimatePresence>
+          {isActionOpen && (
+            <>
+              {/* Phone Icon/Link */}
+              <motion.a
+                href="tel:7600727603"
+                initial={{ opacity: 0, y: 15, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 15, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+                className="w-11 h-11 bg-white text-black flex items-center justify-center rounded-full shadow-xl border border-gray-100"
+              >
+                <Phone size={18} />
+              </motion.a>
 
-        <a
-          href="/contact"
-          className={`w-11 h-11 bg-white text-black flex items-center justify-center rounded-full shadow-xl border border-gray-100 ${!isActionOpen && 'pointer-events-none'}`}
-        >
-          <MapPin size={18} />
-        </a>
+              {/* Location Icon/Link */}
+              <motion.a
+                href="/contact"
+                initial={{ opacity: 0, y: 15, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 15, scale: 0.8 }}
+                transition={{ duration: 0.2, delay: 0.05 }}
+                className="w-11 h-11 bg-white text-black flex items-center justify-center rounded-full shadow-xl border border-gray-100"
+              >
+                <MapPin size={18} />
+              </motion.a>
+            </>
+          )}
+        </AnimatePresence>
 
+        {/* Trigger Arrow/Chevron Button */}
         <button
           onClick={() => setIsActionOpen(!isActionOpen)}
           className="w-12 h-12 bg-[#d4af37] text-black flex items-center justify-center rounded-full shadow-lg active:scale-90 transition-all z-10"
         >
           <motion.div
-            animate={{ rotate: isActionOpen ? 180 : 0 }}
+            animate={{ rotate: isActionOpen ? 0 : -180 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="flex items-center justify-center"
           >
-            <ChevronRight size={24} className="-rotate-90" />
+            <ChevronRight size={24} className="rotate-90" />
           </motion.div>
         </button>
       </div>
