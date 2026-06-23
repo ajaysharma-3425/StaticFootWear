@@ -9,11 +9,14 @@ import {
   Truck,
   RotateCcw,
   ShieldCheck,
-  ArrowLeft
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import Link from 'next/link';
-import { useState, ReactNode, use } from 'react';
+import { useState, ReactNode, use, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -26,9 +29,11 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  // Active Main Display Image State
-  const [activeImage, setActiveImage] = useState(product.images[0]);
+  // Slider State management based on image indexes
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
+
+  const activeImage = product.images[currentIndex];
 
   // Selected Color Object State
   const [selectedColor, setSelectedColor] = useState<{ name: string; hex: string }>(
@@ -39,19 +44,32 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   const availableColors = product.colors || [];
 
+  // --- ARROW NAVIGATION HANDLERS ---
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1));
+  };
+
+  // --- DRAG/SWIPE LOGIC (Framer Motion) ---
+  const handleDragEnd = (event: any, info: any) => {
+    const swipeThreshold = 50; // Kitna swipe karne par image change ho (in pixels)
+    if (info.offset.x > swipeThreshold) {
+      handlePrev();
+    } else if (info.offset.x < -swipeThreshold) {
+      handleNext();
+    }
+  };
+
   // --- SMART FILTERING FOR RELATED PRODUCTS ---
-  // Pehle check karega agar subCategory ya type field hai, nahi toh name/category matching criteria lagayega
   const relatedProducts = products
     .filter(p => {
-      // Current product ko exclude karo
       if (p.id === product.id) return false;
-
-      // Agar explicit category match hoti ho (jaise 'sandals', 'flats', 'shoes')
       if (product.category && p.category) {
         return p.category.toLowerCase() === product.category.toLowerCase();
       }
-
-      // Fallback matching: Name text logic (Agar name me 'chappal' ya 'shoe' hai toh exact group karega)
       const currentName = product.name.toLowerCase();
       const targetName = p.name.toLowerCase();
       if (currentName.includes('chappal') || currentName.includes('flat')) {
@@ -60,7 +78,6 @@ export default function ProductPage({ params }: ProductPageProps) {
       if (currentName.includes('shoe') || currentName.includes('sneaker')) {
         return targetName.includes('shoe') || targetName.includes('sneaker');
       }
-
       return false;
     })
     .slice(0, 4);
@@ -88,19 +105,55 @@ export default function ProductPage({ params }: ProductPageProps) {
       <div className="container mx-auto px-6 pt-28 md:pt-36">
         <div className="flex flex-col lg:flex-row gap-12 xl:gap-20">
 
-          {/* LEFT: IMAGE GALLERY - FIXED SECTION */}
+          {/* LEFT: SWIPABLE IMAGE GALLERY */}
           <div className="w-full lg:w-[60%] flex flex-col items-center">
 
-            {/* Main Display Container */}
-            <div className="relative aspect-square w-full max-w-xl overflow-hidden rounded-[2rem] md:rounded-[3rem] bg-[#0a0a0a] border border-white/5 shadow-2xl p-6 mb-8 group">
-              <Image
-                src={activeImage}
-                alt={product.name}
-                fill
-                priority
-                className="object-contain p-4 transition-transform duration-1000 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
+            {/* Main Display Swipable Slider Container */}
+            <div className="relative aspect-square w-full max-w-xl overflow-hidden rounded-[2rem] md:rounded-[3rem] bg-[#0a0a0a] border border-white/5 shadow-2xl p-6 mb-8 group touch-none select-none">
+              
+              {/* Framer Motion Wrapper for Drag/Swipe */}
+              <motion.div
+                key={currentIndex}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.6}
+                onDragEnd={handleDragEnd}
+                className="relative w-full h-full cursor-grab active:cursor-grabbing"
+              >
+                <Image
+                  src={activeImage}
+                  alt={product.name}
+                  fill
+                  priority
+                  draggable={false} // Prevents default browser image dragging
+                  className="object-contain p-4 transition-transform duration-500 group-hover:scale-102 select-none pointer-events-none"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </motion.div>
+
+              {/* Manual Navigation Arrows (Visible on Hover Desktop / Always available) */}
+              <button
+                onClick={handlePrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 border border-white/10 text-white/70 hover:text-[#d4af37] hover:border-[#d4af37]/40 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 z-10 backdrop-blur-sm"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                onClick={handleNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 border border-white/10 text-white/70 hover:text-[#d4af37] hover:border-[#d4af37]/40 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 z-10 backdrop-blur-sm"
+              >
+                <ChevronRight size={20} />
+              </button>
+
+              {/* Minimal Line Indicators bottom overlay */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                {product.images.map((_, idx) => (
+                  <div
+                    key={idx}
+                    className={`h-1 rounded-full transition-all duration-300 ${currentIndex === idx ? "w-6 bg-[#d4af37]" : "w-1.5 bg-white/20"}`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* PRODUCT GALLERY THUMBNAILS */}
@@ -108,16 +161,16 @@ export default function ProductPage({ params }: ProductPageProps) {
               {product.images.map((img, idx) => (
                 <div
                   key={idx}
-                  onClick={() => setActiveImage(img)}
-                  onMouseEnter={() => setActiveImage(img)}
-                  className={`relative aspect-square rounded-2xl overflow-hidden border bg-[#0a0a0a] cursor-pointer p-2 transition-all ${activeImage === img ? "border-[#d4af37] shadow-[0_0_15px_#d4af3733]" : "border-white/5 hover:border-[#d4af37]/30"
+                  onClick={() => setCurrentIndex(idx)}
+                  onMouseEnter={() => setCurrentIndex(idx)}
+                  className={`relative aspect-square rounded-2xl overflow-hidden border bg-[#0a0a0a] cursor-pointer p-2 transition-all ${currentIndex === idx ? "border-[#d4af37] shadow-[0_0_15px_#d4af3733]" : "border-white/5 hover:border-[#d4af37]/30"
                     }`}
                 >
                   <Image
                     src={img}
                     alt="thumbnail"
                     fill
-                    className={`object-contain transition-opacity ${activeImage === img ? "opacity-100" : "opacity-60 hover:opacity-100"}`}
+                    className={`object-contain transition-opacity ${currentIndex === idx ? "opacity-100" : "opacity-60 hover:opacity-100"}`}
                   />
                 </div>
               ))}
@@ -177,14 +230,13 @@ export default function ProductPage({ params }: ProductPageProps) {
 
             <div className="h-[1px] w-full bg-white/5" />
 
-            {/* --- FLIPKART STYLE: IMAGE-BASED COLOR VARIATION --- */}
+            {/* COLOR VARIATION */}
             <div className="space-y-4">
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">
                 Color Variant: <span className="text-white uppercase">{selectedColor.name}</span>
               </p>
               <div className="flex gap-3">
                 {availableColors.map((colorObj: any, i: number) => {
-                  // Agar data array me color specific image hai toh wo render hogi, fallback to main image
                   const variantImage = product.images[i] || product.images[0];
                   const isSelected = selectedColor.name === colorObj.name;
 
@@ -194,7 +246,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                       onClick={() => {
                         setSelectedColor(colorObj);
                         if (product.images[i]) {
-                          setActiveImage(product.images[i]); // Click karne par bada view bhi switch hoga
+                          setCurrentIndex(i); // Color variant selection updates index flawlessly
                         }
                       }}
                       className={`relative w-14 h-14 rounded-xl overflow-hidden bg-[#0a0a0a] border p-1 transition-all ${isSelected
@@ -265,7 +317,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
 
-        {/* --- PREMIUM INTELLIGENT RELATED PRODUCTS SECTION --- */}
+        {/* RELATED PRODUCTS */}
         {relatedProducts.length > 0 && (
           <div className="mt-24 pt-16 border-t border-white/5">
             <div className="flex flex-col mb-10">

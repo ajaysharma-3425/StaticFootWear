@@ -19,6 +19,23 @@ export const products: Product[] = [
     ]
   },
   {
+    id: 'mens-brands',
+    name: "Men's Zoom PartyWear Shoes",
+    article: 'RC72',
+    price: 2495,
+    category: 'men',
+    subCategory: 'casual',
+    images: ['/images/zoom3.png','/images/zoom2.png','/images/zoom1all.png'],
+    description: 'Lightweight and breathable Branded Partywear shoes.',
+    sizes: ['7', '8', '9', '10'],
+    isFeatured: true,
+    colors: [
+      { name: 'Brown', hex: '#4A322D' },
+      { name: 'Black', hex: '#000000' },
+      
+    ]
+  },
+  {
     id: 'mens-running',
     name: "Men's Nike Running Shoes",
     article: 'OX-2026-Nike',
@@ -89,7 +106,7 @@ export const products: Product[] = [
     subCategory: 'sports',
     images: ['/images/Campus_1.png'],
     description: 'Comfortable Campus Shoes.',
-    sizes: ['5', '6', '7','8'],
+    sizes: ['5', '6', '7', '8'],
     isFeatured: true,
     colors: [
       { name: 'Sky', hex: '#87CEEB' },
@@ -104,7 +121,7 @@ export const products: Product[] = [
     subCategory: 'sandal',
     images: ['/images/Campus_1.png'],
     description: 'Comfortable Campus Sandals.',
-    sizes: ['5', '6', '7','8'],
+    sizes: ['5', '6', '7', '8'],
     isFeatured: true,
     colors: [
       { name: 'Sky', hex: '#87CEEB' },
@@ -119,7 +136,7 @@ export const products: Product[] = [
     subCategory: 'crox',
     images: ['/images/Campus_1.png'],
     description: 'Comfortable Campus Crox.',
-    sizes: ['5', '6', '7','8'],
+    sizes: ['5', '6', '7', '8'],
     isFeatured: true,
     colors: [
       { name: 'Sky', hex: '#87CEEB' },
@@ -194,7 +211,7 @@ export const products: Product[] = [
 
     ]
   },
-   {
+  {
     id: 'womens-ethnic-1',
     name: "Women's Ethnic Chappals",
     article: 'Seasons Chappals',
@@ -203,7 +220,7 @@ export const products: Product[] = [
     subCategory: 'ethnic',
     images: ['/images/Wedding_1.png'],
     description: 'Ethnic Chappals.',
-    sizes: ['37','38', '39','40', '41', '42'],
+    sizes: ['37', '38', '39', '40', '41', '42'],
     isFeatured: true,
     colors: [
       { name: 'Golden', hex: '#CFB53B' },
